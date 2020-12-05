@@ -22,5 +22,32 @@ describe("success", () => {
         }
         
     })
-})
+});
 
+describe("fails", () => {
+    test.each(items)("durability and enhancement should decrease according to client's rules", (item) => {
+        const result = enhancer.fail(item);
+        if (item.enhancement > 16) {
+            expect(result.enhancement).toBe(item.enhancement - 1)
+        }
+        if (item.enhancement < 15) {
+            expect(result.durability).toBe(item.durability - 5)
+        }
+        else {
+            expect(result.durability).toBe(item.durability - 10)
+        }
+    })
+});
+
+describe("get", () => {
+    test.each(items)("prefix name with enhancement if > 0", (item) => {
+        const newName = enhancer.get(item).name
+        if (item.enhancement > 0) {
+            expect(newName).toBe(`[+${item.enhancement}] ${item.name}`)
+        }
+        else {
+            expect(newName).toBe(item.name);
+        }
+        
+    })
+})
